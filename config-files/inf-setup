@@ -1,0 +1,33 @@
+Resilio Sync & USB-HDD
+
+sudo apt-get update && sudo apt-get upgrade
+
+sudo echo "deb http://linux-packages.resilio.com/resilio-sync/deb resilio-sync non-free" | sudo tee /etc/apt/sources.list.d/resilio-sync.list
+sudo wget -qO - https://linux-packages.resilio.com/resilio-sync/key.asc | sudo apt-key add -
+sudo dpkg --add-architecture armhf
+sudo apt-get update
+
+#  Change the line as follows:
+#  sudo nano /etc/apt/sources.list
+   deb [arch=armhf] http://linux-packages.resilio.com/resilio-sync/deb resilio-sync non-free
+
+sudo apt-get update
+sudo apt-get install resilio-sync
+
+sudo systemctl enable resilio-sync
+sudo systemctl start resilio-sync
+
+Acces: 192.168.0.200:8888/gui/
+
+sudo systemctl enable resilio-sync
+sudo systemctl start resilio-sync
+sudo systemctl status resilio-sync
+
+
+
+Managing:
+sudo systemctl status resilio-sync
+sudo systemctl start resilio-sync
+sudo systemctl stop resilio-sync
+sudo systemctl enable resilio-sync
+sudo systemctl disable resilio-sync

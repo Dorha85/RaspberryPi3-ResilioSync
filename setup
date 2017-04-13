@@ -1,0 +1,64 @@
+#!/bin/bash
+clear
+
+read -r -p "This script will make changes to your system. Are you sure that you wish to continue? [y/N] " confirm
+
+if [[ $confirm =~ ^([yY][eE][sS]|[yY])$ ]]
+then
+	clear
+	echo "Updating package lists"
+fi
+	sudo apt-get update -y
+
+	echo "Upgrade package lists"
+	sudo apt-get upgrade -y
+
+echo "Ready to install Resilio Sync"
+sleep 5
+
+echo "Install resilio"
+sudo echo "deb http://linux-packages.resilio.com/resilio-sync/deb resilio-sync non-free" | sudo tee /etc/apt/sources.list.d/resilio-sync.list
+clear
+sleep 5
+
+echo "Install packages"
+sudo wget -qO - https://linux-packages.resilio.com/resilio-sync/key.asc | sudo apt-key add -
+
+echo "Install architecture armhf"
+sudo dpkg --add-architecture armhf
+
+echo "Updating package lists"
+sudo apt-get update -y
+
+clear
+echo "4- BackUp fstab"
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.old
+
+echo "4- Change fstab"
+sudo cp ./config-files/sources.list /etc/apt/sources.list
+
+echo "Updating package lists"
+sudo apt-get update -y
+
+echo "Install resilio-sync"
+sudo apt-get install resilio-sync
+
+clear
+echo "13- service restart"
+sudo systemctl enable resilio-sync
+sleep 4
+sudo systemctl start resilio-sync
+sleep 6
+sudo systemctl status resilio-sync
+
+	echo "================================================================"
+	echo "=================== Configuration complete! ===================="
+	echo "================================================================"
+	sleep 4
+	
+	exit 0
+
+#else
+ #   exit 1
+
+fi
